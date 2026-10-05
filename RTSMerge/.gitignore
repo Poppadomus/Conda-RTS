@@ -13,3 +13,15 @@ RTSMerge/assets/generated/
 *.aud
 *.VQA
 *.vqa
+
+# RA2/YR proprietary resources
+RTSMerge/assets/imported/
+RTSMerge/assets/generated/
+*.VXL
+*.vxl
+*.HVA
+*.hva
+*.CSF
+*.csf
+*.WSA
+*.wsa
