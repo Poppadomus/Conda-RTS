@@ -58,4 +58,4 @@ return {
   lasher_tank=vehicle("Lasher Light Tank","Yuri main battle tank.",700,700,600,2.5,{side="yuri",role="tank"},{def="ra2_grizzly_cannon",onlyTargetCategory="LAND"}),
   initiates=infantry("Initiate","Yuri basic infantry.",100,100,110,{side="yuri",role="infantry"},{def="ra2_rifle",onlyTargetCategory="LAND"}),
   yuri_slave_miner=vehicle("Slave Miner","Yuri mobile ore processor.",1400,1000,950,0.9,{side="yuri",role="harvester",ra2_harvester="1"}),
-}
+},,,,,,\n    buildOptions={"lasher_tank","yuri_slave_miner"}\n    buildOptions={"initiates"}\n    buildOptions={"rhino_tank","soviet_harvester"}\n    buildOptions={"conscript"}\n    buildOptions={"grizzly_tank","allied_harvester"}\n    buildOptions={"gi"}
