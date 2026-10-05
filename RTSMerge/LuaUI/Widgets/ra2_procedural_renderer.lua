@@ -41,11 +41,14 @@ local function tank(arch,team)
   end)
 end
 
-local function mcv(team)
+local function mcv(team,scale)
   local r,g,b=teamColor(team)
-  gl.Color(r*.55,g*.55,b*.55,1);box(34,10,48)
-  gl.Color(r*.85,g*.85,b*.85,1);box(28,12,31)
-  gl.Color(r,g,b,1);box(20,10,18)
+  scale=scale or 2.5
+  gl.Scale(scale,scale,scale)
+  gl.Color(r*.35,g*.35,b*.35,1);box(48,15,68)
+  gl.Color(r*.8,g*.8,b*.8,1);box(38,18,44)
+  gl.Color(r,g,b,1);box(28,14,26)
+  gl.Color(1,1,1,1);cyl(6,18,12)
 end
 
 local function harvester(team)
@@ -100,7 +103,8 @@ function widget:DrawUnit(unitID,drawMode)
   gl.DepthTest(true)
   gl.Culling(false)
   local a=cp.ra2_visual or "tank"
-  if a=="mcv" then mcv(team)
+  local scale=tonumber(Spring.GetUnitRulesParam(unitID,"ra2_scale")) or 1
+  if a=="mcv" then mcv(team,scale)
   elseif a=="harvester" then harvester(team)
   elseif a=="infantry" or a=="engineer" or a=="hero" or a=="spy" then infantry(team)
   elseif a=="aircraft" or a=="helicopter" then aircraft(team)
