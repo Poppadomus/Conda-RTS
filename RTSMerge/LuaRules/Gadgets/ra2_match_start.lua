@@ -1,6 +1,5 @@
 function gadget:GetInfo() return {name="RA2 Match Bootstrap",desc="Creates an asset-free playable starting state and deterministic demo opponent.",author="RTSMerge",layer=1,enabled=true} end
 if not gadgetHandler:IsSyncedCode() then return end
-
 local mcvBySide={allies="allied_mcv",soviet="soviet_mcv",yuri="yuri_mcv"}
 local harvesterBySide={allies="allied_harvester",soviet="soviet_harvester",yuri="yuri_slave_miner"}
 local rules=VFS.Include("gamedata/ra2_rules.lua")
@@ -30,13 +29,11 @@ local function enemyStart(teamID)
     end
   end
 end
-
 function gadget:GameStart()
   for teamIndex,teamID in ipairs(Spring.GetTeamList()) do
     local side=sideForTeam(teamID)
     aiTeams[teamID]=(side=="soviet" and Spring.GetTeamLuaAI(teamID)=="RA2DemoAI")
-    local units=Spring.GetTeamUnits(teamID)
-    if #units==0 then
+    if #Spring.GetTeamUnits(teamID)==0 then
       local mcv=UnitDefNames[mcvBySide[side] or mcvBySide.allies]
       local x,y,z=Spring.GetTeamStartPosition(teamID)
       if not x or x<0 then
@@ -59,7 +56,6 @@ function gadget:GameStart()
     Spring.SetTeamRulesParam(teamID,"ra2_credits",rules.credits.starting,{allied=true})
   end
 end
-
 function gadget:GameFrame(frame)
   for teamID in pairs(aiTeams) do
     local cy=roleUnit(teamID,"conyard")
@@ -70,12 +66,7 @@ function gadget:GameFrame(frame)
       elseif not roleUnit(teamID,"refinery") then build="soviet_refinery"
       elseif not roleUnit(teamID,"barracks") then build="soviet_barracks"
       elseif not roleUnit(teamID,"warfactory") then build="soviet_warfactory" end
-      local offsets={
-        soviet_power={160,160},
-        soviet_refinery={-160,160},
-        soviet_barracks={160,-160},
-        soviet_warfactory={-160,-160},
-      }
+      local offsets={soviet_power={160,160},soviet_refinery={-160,160},soviet_barracks={160,-160},soviet_warfactory={-160,-160}}
       if build and UnitDefNames[build] then
         local o=offsets[build]
         Spring.GiveOrderToUnit(cy,-UnitDefNames[build].id,{x+o[1],y,z+o[2],0},{})
@@ -84,9 +75,8 @@ function gadget:GameFrame(frame)
     if frame%180==0 then
       local wf=roleUnit(teamID,"warfactory")
       local tank=UnitDefNames.rhino_tank
-      if wf and tank and Spring.GetTeamResources(teamID,"metal")>=900 then
-        Spring.GiveOrderToUnit(wf,CMD.CUSTOM_BASE+200,{tank.id},{})
-      end
+      local metal=Spring.GetTeamResources(teamID,"metal")
+      if wf and tank and metal>=900 then Spring.GiveOrderToUnit(wf,CMD.CUSTOM_BASE+200,{tank.id},{}) end
     end
     if frame%30==0 then
       local ex,ey,ez=enemyStart(teamID)
