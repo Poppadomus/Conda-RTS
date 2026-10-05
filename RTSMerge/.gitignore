@@ -1,6 +1,7 @@
 # User-supplied C&C data
 RTSMerge/assets/imported/
 RTSMerge/assets/generated/
+RTSMerge/gamedata/ra2_rules_generated.lua
 *.MIX
 *.mix
 *.SHP
