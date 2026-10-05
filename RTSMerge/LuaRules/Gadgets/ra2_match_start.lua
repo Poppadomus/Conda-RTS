@@ -25,6 +25,7 @@ function gadget:GameStart()
         end
       end
     end
+    Spring.SetTeamResource(teamID,"metalStorage",rules.credits.capacity)
     Spring.SetTeamResource(teamID,"metal",rules.credits.starting)
     Spring.SetTeamRulesParam(teamID,"ra2_credits",rules.credits.starting,{allied=true})
   end
