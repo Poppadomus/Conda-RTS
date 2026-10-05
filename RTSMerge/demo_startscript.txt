@@ -1,7 +1,7 @@
 // RTSMerge local playable demo
 [GAME]
 {
-  MapName=RTSMerge_Blank_512x256;
+  MapName=RTSMerge_Blank_1024x1024;
   GameType=Red Alert 2: Spring;
   InitBlank=1;
   StartPosType=0;
@@ -24,24 +24,13 @@
   TeamLeader=0;
   AllyTeam=0;
   Side=allies;
-  StartPosX=1024;
-  StartPosZ=1024;
 }
 [TEAM1]
 {
-  AllyTeam=1;
   TeamLeader=0;
+  AllyTeam=1;
   Side=soviet;
-  StartPosX=3072;
-  StartPosZ=1024;
-}
-[AI0]
-{
-  Name=DemoAI;
-  ShortName=RA2DemoAI;
-  Team=1;
-  Host=0;
-  Version=0.1;
+  LuaAI=RA2DemoAI;
 }
 [ALLYTEAM0]
 {
@@ -58,8 +47,8 @@
 }
 [MAPOPTIONS]
 {
-  blank_map_x=512;
-  blank_map_y=256;
+  blank_map_x=1024;
+  blank_map_y=1024;
   blank_map_height=30;
   blank_map_color_r=52;
   blank_map_color_g=72;
