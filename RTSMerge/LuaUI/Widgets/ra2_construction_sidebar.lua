@@ -65,6 +65,23 @@ function widget:DrawScreen()
   end
 end
 
+function widget:DrawWorld()
+  if not activeBuild then return end
+  local mx,my=Spring.GetMouseState()
+  local blocked,x,y,z=placement(mx,my,activeBuild)
+  if not x then return end
+  local d=UnitDefs[activeBuild]
+  local sx=(d.xsize or 2)*4
+  local sz=(d.zsize or 2)*4
+  if blocked and blocked~=0 then gl.Color(1,0.15,0.15,0.8) else gl.Color(0.2,1,0.2,0.8) end
+  gl.DepthTest(false)
+  gl.BeginEnd(GL.LINE_LOOP,function()
+    gl.Vertex(x-sx,y+3,z-sz); gl.Vertex(x+sx,y+3,z-sz)
+    gl.Vertex(x+sx,y+3,z+sz); gl.Vertex(x-sx,y+3,z+sz)
+  end)
+  gl.DepthTest(true)
+end
+
 function widget:MousePress(mx,my,button)
   local id,ud=selectedCY()
   if not id then return false end
