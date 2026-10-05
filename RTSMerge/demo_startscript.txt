@@ -27,11 +27,17 @@
   StartPosX=512;
   StartPosZ=1024;
 }
-[PLAYER1]
+[AI0]
 {
   Name=DemoAI;
-  Spectator=1;
+  ShortName=RA2AI;
+  Version=0.1;
+  Host=0;
   Team=1;
+  [OPTIONS]
+  {
+    difficultyLevel=1;
+  }
 }
 [TEAM1]
 {
