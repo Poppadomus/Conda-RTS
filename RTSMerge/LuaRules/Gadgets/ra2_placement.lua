@@ -2,5 +2,5 @@ function gadget:GetInfo() return {name="RA2 Placement Rules",desc="Authoritative
 if not gadgetHandler:IsSyncedCode() then return end
 function gadget:AllowCommand(id,def,team,cmd,params)
  if cmd~=CMD.BUILD then return true end
- return params and params[2]~=nil and params[3]~=nil
+ return params and params[1]~=nil and params[2]~=nil and params[4]~=nil
 end
