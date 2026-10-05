@@ -24,8 +24,8 @@
   TeamLeader=0;
   AllyTeam=0;
   Side=allies;
-  StartPosX=1024;
-  StartPosZ=2048;
+  StartPosX=512;
+  StartPosZ=1024;
 }
 [PLAYER1]
 {
@@ -38,7 +38,7 @@
   TeamLeader=1;
   AllyTeam=1;
   Side=soviet;
-  StartPosX=3072;
+  StartPosX=1536;
   StartPosZ=2048;
 }
 [ALLYTEAM0]
@@ -56,7 +56,7 @@
 }
 [MAPOPTIONS]
 {
-  blank_map_x=256;
+  blank_map_x=512;
   blank_map_y=256;
   blank_map_height=30;
   blank_map_color_r=52;
