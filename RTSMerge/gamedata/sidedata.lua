@@ -1,5 +1,5 @@
 return {
-  [1] = { name="Allies", startunit="allied_mcv" },
-  [2] = { name="Soviet Union", startunit="soviet_mcv" },
-  [3] = { name="Yuri", startunit="yuri_mcv" },
+  {name="Allies",startunit="allied_mcv"},
+  {name="Soviet Union",startunit="soviet_mcv"},
+  {name="Yuri",startunit="yuri_mcv"},
 }
