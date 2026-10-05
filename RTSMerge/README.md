@@ -1,47 +1,46 @@
-# RTSMerge
+# Red Alert 2: Spring
 
-RTSMerge is an open-source Spring Engine RTS project aiming to reproduce the **systems and feel** of classic Command & Conquer-style real-time strategy without redistributing proprietary game assets.
+RTSMerge is now being pivoted into a Red Alert 2-style Spring Engine game.
 
-## Current branch
+The project uses ra2-games/ra2 as a reference for Red Alert 2 systems and content, while Spring provides the deterministic RTS runtime.
 
-This work lives on the `RTSMerge` branch of `Conda-RTS`.
+## Target factions
 
-## Design
+- Allies
+- Soviet Union
+- Yuri
 
-- Spring Engine runtime
-- GDI vs Nod architecture
-- Tiberium-inspired economy
-- Construction Yard / MCV workflow
-- Sidebar-style production as the target UI
-- Power management
-- C&C-style infantry, vehicles and structures
-- Deterministic synced gameplay logic
-- User-supplied asset import path rather than bundled EA assets
+## Target gameplay
 
-## Repository policy
+- MCV deployment and Construction Yard
+- Ore / gem harvesting and refinery economy
+- Power production and power deficits
+- Sidebar-style production
+- Infantry, vehicles, naval units and aircraft
+- Base defenses
+- Superweapons
+- Veterancy
+- Country-specific bonuses
+- RA2-style fog of war and combat pacing
 
-No EA/Westwood proprietary sprites, maps, sounds, music, logos, or extracted game archives are committed here.
+## First playable vertical slice
 
-The project code should remain independently distributable. Asset conversion/import tooling should operate on files supplied by the user.
+1. Allied MCV
+2. Deploy Construction Yard
+3. Power Plant
+4. Ore Refinery
+5. Barracks
+6. War Factory
+7. Grizzly Tank
+8. GI
+9. Harvester
+10. Ore field economy
+11. Soviet and Yuri factions
 
-## First playable milestone
+## Asset strategy
 
-1. Start a Spring game with the RTSMerge mod.
-2. Spawn a GDI MCV.
-3. Deploy a Construction Yard.
-4. Build a Refinery, Power Plant and Barracks.
-5. Establish a Tiberium field/harvester economy.
-6. Produce basic infantry and vehicles.
-7. Add Nod as the second playable faction.
+The project is designed to ingest legally supplied Red Alert 2 / Yuri's Revenge game assets. The repository contains conversion/import tooling and Spring definitions; proprietary source game archives are not assumed to be redistributable merely because the source code is public.
 
-## Engine setup
+## Relationship to ra2-games/ra2
 
-RTSMerge does not bundle the Spring engine. Install a compatible Spring runtime separately, then package this directory as a Spring game/mod according to the runtime's normal content layout.
-
-## Licensing
-
-Code authored for RTSMerge should use GPL-3.0-or-later unless a more permissive license is explicitly chosen for a specific component.
-
-Command & Conquer is a trademark of Electronic Arts/Westwood. This project is unofficial and is not endorsed by EA.
-
-See `LICENSE` and `docs/ASSETS.md` for details.
+ra2-games/ra2 is a fan-made GPL-3.0 web port of Red Alert 2 with Yuri's Revenge and multiplayer support. RTSMerge is a separate Spring implementation. Compatible open-source code can be reused only where licensing and architecture permit.
