@@ -1,0 +1,59 @@
+// RTSMerge local playable demo
+[GAME]
+{
+  MapName=;
+  GameType=RTSMerge;
+  InitBlank=1;
+  StartPosType=0;
+  GameStartDelay=1;
+  IsHost=1;
+  MyPlayerName=DemoPlayer;
+  NumPlayers=1;
+  NumTeams=2;
+  NumAllyTeams=2;
+  FixedRNGSeed=424242;
+}
+[PLAYER0]
+{
+  Name=DemoPlayer;
+  Spectator=0;
+  Team=0;
+}
+[TEAM0]
+{
+  TeamLeader=0;
+  AllyTeam=0;
+  Side=allies;
+  StartPosX=1024;
+  StartPosZ=2048;
+}
+[TEAM1]
+{
+  TeamLeader=-1;
+  AllyTeam=1;
+  Side=soviet;
+  StartPosX=3072;
+  StartPosZ=2048;
+}
+[ALLYTEAM0]
+{
+  NumAllies=0;
+}
+[ALLYTEAM1]
+{
+  NumAllies=0;
+}
+[MODOPTIONS]
+{
+  LuaRules=1;
+  LuaGaia=1;
+}
+[MAPOPTIONS]
+{
+  blank_map_x=256;
+  blank_map_y=256;
+  blank_map_height=30;
+  blank_map_color_r=52;
+  blank_map_color_g=72;
+  blank_map_color_b=48;
+}
