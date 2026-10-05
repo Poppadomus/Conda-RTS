@@ -13,8 +13,8 @@ Goal: standalone RA2/Yuri-style RTS in Spring with no original RA2/YR asset depe
 
 ## 2 Construction
 - [x] MCV deploy; [x] Construction Yard; [x] prerequisites; [x] build-radius validation
-- [ ] Footprint/overlap; [ ] terrain/water; [ ] refund/cancel; [ ] nanoframe; [ ] multiple builders
-- [ ] MCV undeploy; [ ] deployment animation/state
+- [x] Footprint/overlap; [x] map-boundary validation; [ ] terrain/water; [ ] refund/cancel; [ ] nanoframe; [ ] multiple builders
+- [ ] MCV undeploy; [x] blocked-placement handling; [ ] deployment animation/state
 
 ## 3 Economy
 - [x] Deterministic logical ore fields; [x] harvester state machine; [x] cargo; [x] refinery unload
@@ -34,7 +34,7 @@ Goal: standalone RA2/Yuri-style RTS in Spring with no original RA2/YR asset depe
 
 ## 6 Power
 - [x] Power production/drain/ratio
-- [ ] Powered-building registration; [ ] low-power shutdown; [ ] priority; [ ] restoration; [ ] UI
+- [x] Powered-building registration; [x] low-power state; [x] factory production pause; [ ] priority; [ ] restoration; [ ] UI
 
 ## 7 Vision/radar/stealth
 - [ ] Line of sight; [ ] radar; [ ] shroud; [ ] stealth/cloak; [ ] detection; [ ] minimap
@@ -82,7 +82,7 @@ Goal: standalone RA2/Yuri-style RTS in Spring with no original RA2/YR asset depe
 ## 19 Testing/tooling
 - [x] Lua structure/roster/model audit tools
 - [ ] Unit/weapon/build-tree/production validators; [ ] economy invariants; [ ] combat matrix tests
-- [ ] automated smoke match; [ ] asset-free package test; [ ] regression suite
+- [x] runtime definition self-test; [ ] automated smoke match; [ ] asset-free package test; [ ] regression suite
 
 ## 20 Definition of playable
 Start → MCV → deploy → Construction Yard → Power → Refinery → ore → credits → Barracks/War Factory → queue → unit spawn → move → target → fire → damage → destroy → enemy elimination → victory.
