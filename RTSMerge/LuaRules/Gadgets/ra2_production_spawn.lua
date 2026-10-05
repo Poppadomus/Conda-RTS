@@ -74,11 +74,19 @@ function gadget:GameFrame(frame)
       Spring.SetUnitRulesParam(producer,"ra2_queue_progress",item.progress,{allied=true})
       if item.progress>=1 then
         local x,y,z=Spring.GetUnitPosition(producer)
+        local spawned=false
         if x and UnitDefs[item.target] then
           local team=Spring.GetUnitTeam(producer)
-          Spring.CreateUnit(item.target,x+48,y,z+48,0,team)
+          local offsets={{64,64},{-64,64},{64,-64},{-64,-64},{0,96},{0,-96},{96,0},{-96,0}}
+          for _,o in ipairs(offsets) do
+            local sx,sz=x+o[1],z+o[2]
+            if sx>=0 and sz>=0 and sx<=Game.mapSizeX and sz<=Game.mapSizeZ then
+              local created=Spring.CreateUnit(item.target,sx,Spring.GetGroundHeight(sx,sz),sz,0,team)
+              if created then spawned=true; break end
+            end
+          end
         end
-        table.remove(q,1)
+        if spawned then table.remove(q,1) else item.progress=math.max(0,item.progress-0.05) end
         Spring.SetUnitRulesParam(producer,"ra2_queue_length",#q,{allied=true})
         Spring.SetUnitRulesParam(producer,"ra2_queue_progress",#q>0 and 0 or 0,{allied=true})
       end
