@@ -3,6 +3,7 @@ if not gadgetHandler:IsSyncedCode() then return end
 local mcvBySide={allies="allied_mcv",soviet="soviet_mcv",yuri="yuri_mcv"}
 local harvesterBySide={allies="allied_harvester",soviet="soviet_harvester",yuri="yuri_slave_miner"}
 local rules=VFS.Include("gamedata/ra2_rules.lua")
+local aiTeams={}
 local function sideForTeam(teamID)
   local _,_,_,_,side=Spring.GetTeamInfo(teamID,false)
   if type(side)=="string" then return side:lower() end
@@ -12,6 +13,7 @@ end
 function gadget:GameStart()
   for _,teamID in ipairs(Spring.GetTeamList()) do
     local side=sideForTeam(teamID)
+    aiTeams[teamID]=(side=="soviet" and #Spring.GetPlayerList(teamID,true)==0)
     local units=Spring.GetTeamUnits(teamID)
     if #units==0 then
       local mcv=UnitDefNames[mcvBySide[side] or mcvBySide.allies]
@@ -28,5 +30,34 @@ function gadget:GameStart()
     Spring.SetTeamResource(teamID,"metalStorage",rules.credits.capacity)
     Spring.SetTeamResource(teamID,"metal",rules.credits.starting)
     Spring.SetTeamRulesParam(teamID,"ra2_credits",rules.credits.starting,{allied=true})
+  end
+end
+
+function gadget:GameFrame(frame)
+  if frame%90~=0 then return end
+  for teamID in pairs(aiTeams) do
+    local cy
+    for _,id in ipairs(Spring.GetTeamUnits(teamID)) do
+      local ud=UnitDefs[Spring.GetUnitDefID(id)]
+      if ud and ud.customParams and ud.customParams.role=="conyard" then cy=id break end
+    end
+    if cy then
+      local x,y,z=Spring.GetUnitPosition(cy)
+      local function has(role)
+        for _,id in ipairs(Spring.GetTeamUnits(teamID)) do
+          local ud=UnitDefs[Spring.GetUnitDefID(id)]
+          if ud and ud.customParams and ud.customParams.role==role then return true end
+        end
+        return false
+      end
+      local build
+      if not has("power") then build="soviet_power"
+      elseif not has("refinery") then build="soviet_refinery"
+      elseif not has("barracks") then build="soviet_barracks"
+      elseif not has("warfactory") then build="soviet_warfactory" end
+      if build and UnitDefNames[build] then
+        Spring.GiveOrderToUnit(cy,-UnitDefNames[build].id,{x+160,y,z+160,0},{})
+      end
+    end
   end
 end
