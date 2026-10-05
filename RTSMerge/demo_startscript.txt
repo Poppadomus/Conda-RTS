@@ -2,7 +2,7 @@
 [GAME]
 {
   MapName=RTSMerge_Blank_1024x1024;
-  GameType=Red Alert 2: Spring;
+  GameType=RTSMerge;
   InitBlank=1;
   StartPosType=0;
   GameStartDelay=1;
