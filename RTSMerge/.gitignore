@@ -1,0 +1,15 @@
+# User-supplied C&C data
+RTSMerge/assets/imported/
+RTSMerge/assets/generated/
+*.MIX
+*.mix
+*.SHP
+*.shp
+*.PAL
+*.pal
+*.TMP
+*.tmp
+*.AUD
+*.aud
+*.VQA
+*.vqa
