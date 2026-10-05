@@ -76,8 +76,7 @@ function gadget:GameFrame(frame)
         local x,y,z=Spring.GetUnitPosition(producer)
         if x and UnitDefs[item.target] then
           local team=Spring.GetUnitTeam(producer)
-          local facing=Spring.GetUnitBuildFacing(producer) or 0
-          Spring.CreateUnit(item.target,x+48,y,z+48,facing,team)
+          Spring.CreateUnit(item.target,x+48,y,z+48,0,team)
         end
         table.remove(q,1)
         Spring.SetUnitRulesParam(producer,"ra2_queue_length",#q,{allied=true})
