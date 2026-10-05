@@ -4,7 +4,7 @@
   MapName=RTSMerge_Blank_1024x1024;
   GameType=RTSMerge;
   InitBlank=1;
-  StartPosType=0;
+  StartPosType=3;
   GameStartDelay=1;
   IsHost=1;
   MyPlayerName=DemoPlayer;
@@ -24,6 +24,8 @@
   TeamLeader=0;
   AllyTeam=0;
   Side=allies;
+  StartPosX=256;
+  StartPosZ=512;
 }
 [TEAM1]
 {
@@ -31,6 +33,8 @@
   AllyTeam=1;
   Side=soviet;
   LuaAI=RA2DemoAI;
+  StartPosX=768;
+  StartPosZ=512;
 }
 [ALLYTEAM0]
 {
