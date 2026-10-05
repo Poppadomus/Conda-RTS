@@ -27,7 +27,7 @@ end
 function gadget:Initialize() gadgetHandler:RegisterAllowCommand(CMD.BUILD) end
 function gadget:AllowCommand(unitID,unitDefID,teamID,cmdID,params)
  if cmdID~=CMD.BUILD then return true end
- local builder=UnitDefs[def]
+ local builder=UnitDefs[unitDefID]
  local role=builder and builder.customParams and builder.customParams.role
  -- Factories use the authoritative custom production queue; Construction Yards use native building.
  if (role=="barracks" or role=="warfactory") and params and tonumber(params[1]) and tonumber(params[1])<0 then return false end
