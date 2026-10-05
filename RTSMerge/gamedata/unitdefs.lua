@@ -28,4 +28,30 @@ for _, def in pairs(unitDefs) do
      def.customParams.role == "infantry" and "infantry" or "tank")
 end
 
+local production = {
+  alliesInfantry = {"gi","guardian_gi","rocketeer","engineer","navy_seal","spy","tanya","chrono_legionnaire"},
+  alliesVehicles = {"grizzly_tank","ifv","mirage_tank","prism_tank","allied_harvester"},
+  sovietInfantry = {"conscript","flak_trooper","tesla_trooper","soviet_engineer","boris"},
+  sovietVehicles = {"rhino_tank","flak_track","terror_drone","v3_rocket","apocalypse_tank","tesla_tank","soviet_harvester"},
+  yuriInfantry = {"initiates","brute","virus","yuri_prime"},
+  yuriVehicles = {"lasher_tank","gatling_tank","magnetron","mastermind","chaos_drone","grinder","yuri_slave_miner"},
+}
+local function appendOptions(factory, list)
+  if not unitDefs[factory] then return end
+  unitDefs[factory].buildOptions = unitDefs[factory].buildOptions or {}
+  for _, name in ipairs(list) do
+    if unitDefs[name] then
+      local found=false
+      for _, existing in ipairs(unitDefs[factory].buildOptions) do if existing==name then found=true end end
+      if not found then unitDefs[factory].buildOptions[#unitDefs[factory].buildOptions+1]=name end
+    end
+  end
+end
+appendOptions("allied_barracks", production.alliesInfantry)
+appendOptions("allied_warfactory", production.alliesVehicles)
+appendOptions("soviet_barracks", production.sovietInfantry)
+appendOptions("soviet_warfactory", production.sovietVehicles)
+appendOptions("yuri_barracks", production.yuriInfantry)
+appendOptions("yuri_warfactory", production.yuriVehicles)
+
 return unitDefs
