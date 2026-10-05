@@ -30,10 +30,18 @@
 [TEAM1]
 {
   AllyTeam=1;
-  LuaAI=RA2DemoAI;
+  TeamLeader=0;
   Side=soviet;
   StartPosX=3072;
   StartPosZ=1024;
+}
+[AI0]
+{
+  Name=DemoAI;
+  ShortName=RA2DemoAI;
+  Team=1;
+  Host=0;
+  Version=0.1;
 }
 [ALLYTEAM0]
 {
