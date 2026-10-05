@@ -4,9 +4,10 @@ end
 if not gadgetHandler:IsSyncedCode() then return end
 
 local rules = VFS.Include("gamedata/ra2_rules.lua")
-local unitRules, buildingRules = {}, {}
+local unitRules, buildingRules, keyByDefID = {}, {}, {}
 for _,v in ipairs(rules.units) do unitRules[v.id]=v end
 for _,v in ipairs(rules.buildings) do buildingRules[v.id]=v end
+for key,ud in pairs(UnitDefNames) do keyByDefID[ud.id]=key end
 
 local function teamSide(teamID)
   local _,_,_,_,side = Spring.GetTeamInfo(teamID)
@@ -22,20 +23,30 @@ local function owns(teamID, defName)
   return false
 end
 
+local producer = {
+  allies={barracks="allied_barracks",warfactory="allied_warfactory"},
+  soviet={barracks="soviet_barracks",warfactory="soviet_warfactory"},
+  yuri={barracks="yuri_barracks",warfactory="yuri_warfactory"},
+}
+
 local function canBuild(teamID, defName)
-  local r=buildingRules[defName]
-  if r then
-    if r.side ~= teamSide(teamID) then return false end
-    for _,req in ipairs(r.requires) do if not owns(teamID,req) then return false end end
+  local b=buildingRules[defName]
+  if b then
+    if b.side ~= teamSide(teamID) then return false end
+    for _,req in ipairs(b.requires) do
+      if not owns(teamID,req) then return false end
+    end
     return true
   end
   local u=unitRules[defName]
-  return u and u.side == teamSide(teamID) and owns(teamID,u.production and (u.side=="allies" and (u.production=="barracks" and "allied_barracks" or "allied_warfactory") or u.side=="soviet" and (u.production=="barracks" and "soviet_barracks" or "soviet_warfactory") or (u.production=="barracks" and "yuri_barracks" or "yuri_warfactory")))
+  if not u or u.side ~= teamSide(teamID) then return false end
+  local p=producer[u.side] and producer[u.side][u.production]
+  return p ~= nil and owns(teamID,p)
 end
 
 function gadget:AllowCommand(unitID,unitDefID,teamID,cmdID,cmdParams,cmdOptions)
   if cmdID ~= CMD.BUILD or not cmdParams or not cmdParams[1] then return true end
-  local ud=UnitDefs[math.abs(cmdParams[1])]
-  if not ud then return true end
-  return canBuild(teamID,ud.name)
+  local defName=keyByDefID[math.abs(cmdParams[1])]
+  if not defName then return false end
+  return canBuild(teamID,defName)
 end
