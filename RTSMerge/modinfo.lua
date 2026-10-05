@@ -1,10 +1,10 @@
 return {
-  name = "Red Alert 2: Spring",
-  shortname = "RA2S",
+  name = "RTSMerge",
+  shortname = "RTSMerge",
   version = "0.2.0-dev",
-  game = "Red Alert 2: Spring",
-  shortGame = "RA2S",
-  description = "Spring Engine RTS inspired by Red Alert 2 and Yuri's Revenge.",
+  game = "RTSMerge",
+  shortGame = "RTSMerge",
+  description = "Asset-free Red Alert 2-style RTS for Recoil.",
   modtype = 1,
   depend = { "cursors.sdz" },
 }
