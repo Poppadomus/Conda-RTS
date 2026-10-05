@@ -1,30 +1,68 @@
 #!/usr/bin/env python3
-"""Validate and stage a user-supplied C&C installation for RTSMerge."""
-from pathlib import Path
+"""Validate and stage a legally owned Red Alert 2 / Yuri's Revenge install.
+
+The importer never commits proprietary game data. It only copies source files
+into the ignored assets/imported directory for a local conversion workflow.
+"""
+from __future__ import annotations
+
 import argparse
+import shutil
+from pathlib import Path
 
-REQUIRED=("CONQUER.MIX","GENERAL.MIX")
-OPTIONAL=("LOCAL.MIX","CCLOCAL.MIX","SOUNDS.MIX","SPEECH.MIX")
+RA2_REQUIRED = ("ra2.mix", "language.mix")
+YR_REQUIRED = ("gamemd.exe", "ra2md.mix", "langmd.mix")
+OPTIONAL = (
+    "thememd.mix", "multimd.mix", "expandmd01.mix",
+    "maps01.mix", "maps02.mix", "mapsmd03.mix",
+    "movies01.mix", "movies02.mix", "movmd03.mix",
+    "subtitle.txt", "subtitlemd.txt",
+)
+EXTENSIONS = {".mix", ".shp", ".pal", ".tmp", ".vxl", ".hva", ".csf", ".aud", ".wav", ".vqa", ".bik"}
 
-def find(root,name):
-    wanted=name.lower()
-    for p in root.rglob('*'):
-        if p.is_file() and p.name.lower()==wanted: return p
+def find_case_insensitive(root: Path, name: str) -> Path | None:
+    target = name.lower()
+    for p in root.rglob("*"):
+        if p.is_file() and p.name.lower() == target:
+            return p
     return None
 
-def main():
-    ap=argparse.ArgumentParser()
-    ap.add_argument('game_dir',type=Path)
-    ap.add_argument('--out',type=Path,default=Path('RTSMerge/assets/imported'))
-    a=ap.parse_args(); root=a.game_dir.expanduser().resolve()
-    if not root.is_dir(): raise SystemExit(f'Not a directory: {root}')
-    missing=[n for n in REQUIRED if find(root,n) is None]
-    if missing: raise SystemExit('Missing required C&C data: '+', '.join(missing))
-    a.out.mkdir(parents=True,exist_ok=True)
-    print(f'Validated C&C data at {root}')
-    for n in REQUIRED+OPTIONAL:
-        p=find(root,n)
-        if p: print(f'  found {n}: {p}')
-    print(f'Asset staging directory: {a.out.resolve()}')
+def validate(root: Path) -> list[str]:
+    missing = []
+    for name in RA2_REQUIRED:
+        if find_case_insensitive(root, name) is None:
+            missing.append(name)
+    return missing
 
-if __name__=='__main__': main()
+def stage(root: Path, out: Path) -> int:
+    missing = validate(root)
+    if missing:
+        print("Missing RA2 baseline files:", ", ".join(missing))
+        return 2
+
+    out.mkdir(parents=True, exist_ok=True)
+    copied = 0
+    for src in root.rglob("*"):
+        if not src.is_file():
+            continue
+        if src.suffix.lower() not in EXTENSIONS and src.name.lower() not in YR_REQUIRED:
+            continue
+        rel = src.relative_to(root)
+        dst = out / rel
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(src, dst)
+        copied += 1
+
+    print(f"Staged {copied} RA2/YR resource files under {out}")
+    print("Proprietary source data remains ignored and local.")
+    return 0
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("install", type=Path, help="RA2/YR installation directory")
+    parser.add_argument("--out", type=Path, default=Path(__file__).resolve().parents[1] / "assets" / "imported")
+    args = parser.parse_args()
+    return stage(args.install.resolve(), args.out.resolve())
+
+if __name__ == "__main__":
+    raise SystemExit(main())
