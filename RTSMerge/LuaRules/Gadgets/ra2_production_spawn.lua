@@ -70,7 +70,8 @@ function gadget:GameFrame(frame)
   for producer,q in pairs(queues) do
     if Spring.ValidUnitID(producer) and #q>0 then
       local item=q[1]
-      item.progress=math.min(1,item.progress+3/timeOf(item.target))
+      local powered=(Spring.GetUnitRulesParam(producer,"ra2_powered") or 1)
+      item.progress=math.min(1,item.progress+(3/timeOf(item.target))*powered)
       Spring.SetUnitRulesParam(producer,"ra2_queue_progress",item.progress,{allied=true})
       if item.progress>=1 then
         local x,y,z=Spring.GetUnitPosition(producer)
