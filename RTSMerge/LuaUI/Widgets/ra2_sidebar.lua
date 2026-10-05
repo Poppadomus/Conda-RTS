@@ -35,8 +35,9 @@ function widget:DrawScreen()
     return
   end
 
-  local q=Spring.GetUnitRulesParam(select(1,selectedFactory()),"ra2_queue_length") or 0
-  local p=Spring.GetUnitRulesParam(select(1,selectedFactory()),"ra2_queue_progress") or 0
+  local factoryID=select(1,selectedFactory())
+  local q=Spring.GetUnitRulesParam(factoryID,"ra2_queue_length") or 0
+  local p=Spring.GetUnitRulesParam(factoryID,"ra2_queue_progress") or 0
   gl.Text("Queue: "..q.."  "..math.floor(p*100).."%",x+14,vsy-102,13,"o")
 
   local list=options(factory)
@@ -44,8 +45,10 @@ function widget:DrawScreen()
   for _,item in ipairs(list) do
     if y<65 then break end
     local d=item.def
-    gl.Color(0.12,0.12,0.12,0.95); gl.Rect(x+10,y-8,vsx-20,y+25)
-    gl.Color(1,1,1,1)
+    local metal=Spring.GetTeamResources(Spring.GetMyTeamID(),"metal") or 0
+    local affordable=metal >= (d.buildCostMetal or 0)
+    gl.Color(affordable and 0.12 or 0.06,affordable and 0.12 or 0.06,affordable and 0.12 or 0.06,0.95); gl.Rect(x+10,y-8,vsx-20,y+25)
+    gl.Color(1,1,1,affordable and 1 or 0.45)
     gl.Text(d.name or item.name,x+20,y+10,14,"o")
     gl.Text(tostring(math.floor(d.buildCostMetal or 0)),vsx-75,y+10,12,"o")
     y=y-34
