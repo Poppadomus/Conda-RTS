@@ -24,16 +24,16 @@
   TeamLeader=0;
   AllyTeam=0;
   Side=allies;
-  StartPosX=512;
+  StartPosX=1024;
   StartPosZ=1024;
 }
 [TEAM1]
 {
-  TeamLeader=-1;
   AllyTeam=1;
+  LuaAI=RA2DemoAI;
   Side=soviet;
-  StartPosX=1536;
-  StartPosZ=2048;
+  StartPosX=3072;
+  StartPosZ=1024;
 }
 [ALLYTEAM0]
 {
