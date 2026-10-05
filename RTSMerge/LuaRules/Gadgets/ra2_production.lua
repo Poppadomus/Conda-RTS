@@ -1,52 +1,34 @@
-function gadget:GetInfo()
-  return {name="RA2 Production and Prerequisites",desc="Authoritative construction and production gates.",author="RTSMerge",layer=20,enabled=true}
-end
+function gadget:GetInfo() return {name="RA2 Production and Prerequisites",desc="Authoritative RA2 construction gates.",author="RTSMerge",layer=20,enabled=true} end
 if not gadgetHandler:IsSyncedCode() then return end
-
 local rules=VFS.Include("gamedata/ra2_rules.lua")
-local unitRules,buildingRules={},{}
-for _,v in ipairs(rules.units) do unitRules[v.id]=v end
-for _,v in ipairs(rules.buildings) do buildingRules[v.id]=v end
-
-local defNameByID={}
-for name,ud in pairs(UnitDefNames) do defNameByID[ud.id]=name end
-
-local function teamSide(teamID)
-  local side=select(5,Spring.GetTeamInfo(teamID,false))
-  return side==0 and "allies" or side==1 and "soviet" or "yuri"
+local units,buildings={},{}
+for _,v in ipairs(rules.units) do units[v.id]=v end
+for _,v in ipairs(rules.buildings) do buildings[v.id]=v end
+local names={}
+for n,ud in pairs(UnitDefNames) do names[ud.id]=n end
+local producers={allies={barracks="allied_barracks",warfactory="allied_warfactory"},soviet={barracks="soviet_barracks",warfactory="soviet_warfactory"},yuri={barracks="yuri_barracks",warfactory="yuri_warfactory"}}
+local sideNames={"allies","soviet","yuri"}
+local function side(team)
+ local s=select(5,Spring.GetTeamInfo(team,false))
+ return sideNames[(s or 0)+1] or sideNames[s] or "allies"
 end
-
-local function owns(teamID,name)
-  local ud=UnitDefNames[name]
-  return ud and Spring.GetTeamUnitDefCount(teamID,ud.id)>0
+local function owns(team,name)
+ local ud=UnitDefNames[name]
+ return ud and Spring.GetTeamUnitDefCount(team,ud.id)>0
 end
-
-local function producerFor(side,production)
-  local p={
-    allies={barracks="allied_barracks",warfactory="allied_warfactory"},
-    soviet={barracks="soviet_barracks",warfactory="soviet_warfactory"},
-    yuri={barracks="yuri_barracks",warfactory="yuri_warfactory"},
-  }
-  return p[side] and p[side][production]
+local function can(team,name)
+ local b=buildings[name]
+ if b then if b.side~=side(team) then return false end; for _,r in ipairs(b.requires) do if not owns(team,r) then return false end end; return true end
+ local u=units[name]
+ if not u or u.side~=side(team) then return false end
+ local p=producers[u.side] and producers[u.side][u.production]
+ return p and owns(team,p) or false
 end
-
-local function canBuild(teamID,name)
-  local side=teamSide(teamID)
-  local b=buildingRules[name]
-  if b then
-    if b.side~=side then return false end
-    for _,req in ipairs(b.requires) do if not owns(teamID,req) then return false end end
-    return true
-  end
-  local u=unitRules[name]
-  if not u or u.side~=side then return false end
-  local producer=producerFor(side,u.production)
-  return producer~=nil and owns(teamID,producer)
-end
-
-function gadget:AllowCommand(unitID,unitDefID,teamID,cmdID,cmdParams,cmdOptions)
-  if cmdID~=CMD.BUILD or not cmdParams or not cmdParams[1] then return true end
-  local defName=defNameByID[math.abs(cmdParams[1])]
-  if not defName then return false end
-  return canBuild(teamID,defName)
+function gadget:Initialize() gadgetHandler:RegisterAllowCommand(CMD.BUILD) end
+function gadget:AllowCommand(unitID,unitDefID,teamID,cmdID,params)
+ if cmdID~=CMD.BUILD then return true end
+ local raw=params and params[1]; if not raw then return true end
+ local name=names[math.abs(raw)]
+ if not name then return false end
+ return can(teamID,name)
 end
