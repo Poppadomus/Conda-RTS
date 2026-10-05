@@ -27,9 +27,15 @@
   StartPosX=1024;
   StartPosZ=2048;
 }
+[PLAYER1]
+{
+  Name=DemoAI;
+  Spectator=1;
+  Team=1;
+}
 [TEAM1]
 {
-  TeamLeader=-1;
+  TeamLeader=1;
   AllyTeam=1;
   Side=soviet;
   StartPosX=3072;
