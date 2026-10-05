@@ -11,13 +11,20 @@ local function sideForTeam(teamID)
   return side==1 and "soviet" or side==2 and "yuri" or "allies"
 end
 function gadget:GameStart()
-  for _,teamID in ipairs(Spring.GetTeamList()) do
+  local teams=Spring.GetTeamList()
+  for teamIndex,teamID in ipairs(teams) do
     local side=sideForTeam(teamID)
     aiTeams[teamID]=(side=="soviet" and #Spring.GetPlayerList(teamID,true)==0)
     local units=Spring.GetTeamUnits(teamID)
     if #units==0 then
       local mcv=UnitDefNames[mcvBySide[side] or mcvBySide.allies]
       local x,y,z=Spring.GetTeamStartPosition(teamID)
+      if not x or x<0 then
+        local sideIndex=(teamIndex-1)%2
+        x=sideIndex==0 and 1024 or (Game.mapSizeX-1024)
+        z=Game.mapSizeZ*0.5
+        y=Spring.GetGroundHeight(x,z)
+      end
       if mcv and x and x>=0 then
         local mcvID=Spring.CreateUnit(mcv.id,x,y,z,0,teamID)
         local harv=UnitDefNames[harvesterBySide[side] or harvesterBySide.allies]
