@@ -1,5 +1,5 @@
 return {
-  credits = { starting = 10000, capacity = 10000, tick = 30 },
+  credits = { starting = 5000, capacity = 10000, tick = 30 },
   power = { deficitMultiplier = 0.5 },
   ore = { value = 25, gemMultiplier = 2, fieldRadius = 64 },
   build = { mcvDeployCommand = 34567, constructionRadius = 900 },
@@ -15,9 +15,9 @@ return {
     Yuri={psychic=true},
   },
   units = {
-    {id="gi",side="allies",production="barracks",cost=200},
+    {id="gi",side="allies",production="barracks",cost=100},
     {id="conscript",side="soviet",production="barracks",cost=100},
-    {id="initiates",side="yuri",production="barracks",cost=200},
+    {id="initiates",side="yuri",production="barracks",cost=100},
     {id="grizzly_tank",side="allies",production="warfactory",cost=700},
     {id="rhino_tank",side="soviet",production="warfactory",cost=900},
     {id="lasher_tank",side="yuri",production="warfactory",cost=700},
