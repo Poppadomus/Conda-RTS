@@ -1,6 +1,14 @@
 function widget:GetInfo() return {name="RA2 Construction Sidebar",desc="Clickable RA2-style construction controls with placement mode.",author="RTSMerge",layer=1,enabled=true} end
 local panelW=300
 local activeBuild=nil
+local activeFacing=0
+local function placement(mx,my,unitDefID)
+  local kind,pos=Spring.TraceScreenRay(mx,my,true)
+  if kind~="ground" or not pos then return nil end
+  local x,y,z=Spring.Pos2BuildPos(unitDefID,pos[1],pos[2],pos[3],activeFacing)
+  local blocked=Spring.TestBuildOrder(unitDefID,x,y,z,activeFacing)
+  return blocked,x,y,z
+end
 
 local function selectedCY()
   for _,id in ipairs(Spring.GetSelectedUnits()) do
@@ -33,7 +41,9 @@ function widget:DrawScreen()
   gl.Color(0,0,0,0.82); gl.Rect(x,45,vsx-10,vsy-45)
   gl.Color(1,1,1,1); gl.Text("CONSTRUCTION",x+14,vsy-70,20,"o")
   if activeBuild then
-    gl.Text("Place: "..(UnitDefs[activeBuild].name or "building").."  (RMB cancel)",x+14,vsy-92,12,"o")
+    local blocked=select(1,placement(Spring.GetMouseState()))
+    local state=(blocked and blocked~=0) and "BLOCKED" or "READY"
+    gl.Text("Place: "..(UnitDefs[activeBuild].name or "building").."  ["..state.."]",x+14,vsy-92,12,"o")
   else
     gl.Text("Select a building, then click terrain",x+14,vsy-92,12,"o")
   end
