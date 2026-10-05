@@ -12,13 +12,7 @@ from pathlib import Path
 
 RA2_REQUIRED = ("ra2.mix", "language.mix")
 YR_REQUIRED = ("gamemd.exe", "ra2md.mix", "langmd.mix")
-OPTIONAL = (
-    "thememd.mix", "multimd.mix", "expandmd01.mix",
-    "maps01.mix", "maps02.mix", "mapsmd03.mix",
-    "movies01.mix", "movies02.mix", "movmd03.mix",
-    "subtitle.txt", "subtitlemd.txt",
-)
-EXTENSIONS = {".mix", ".shp", ".pal", ".tmp", ".vxl", ".hva", ".csf", ".aud", ".wav", ".vqa", ".bik"}
+EXTENSIONS = {".mix", ".shp", ".pal", ".tmp", ".vxl", ".hva", ".csf", ".aud", ".wav", ".vqa", ".bik", ".ini"}
 
 def find_case_insensitive(root: Path, name: str) -> Path | None:
     target = name.lower()
@@ -28,10 +22,7 @@ def find_case_insensitive(root: Path, name: str) -> Path | None:
     return None
 
 def validate(root: Path) -> list[str]:
-    missing = []
-    for name in RA2_REQUIRED:
-        if find_case_insensitive(root, name) is None:
-            missing.append(name)
+    missing = [name for name in RA2_REQUIRED if find_case_insensitive(root, name) is None]
     return missing
 
 def stage(root: Path, out: Path) -> int:
@@ -54,6 +45,7 @@ def stage(root: Path, out: Path) -> int:
         copied += 1
 
     print(f"Staged {copied} RA2/YR resource files under {out}")
+    print("INI rule data is staged alongside art/audio resources for conversion.")
     print("Proprietary source data remains ignored and local.")
     return 0
 
