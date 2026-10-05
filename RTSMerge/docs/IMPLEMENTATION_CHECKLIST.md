@@ -8,8 +8,8 @@ Goal: standalone RA2/Yuri-style RTS in Spring with no original RA2/YR asset depe
 - [ ] Verify packaged mod launches; [ ] minimal test map; [ ] CI smoke test
 
 ## 1 Match bootstrap
-- [ ] Spawn exactly one faction MCV when a team has no starting units
-- [ ] Starting credits/cap; [ ] faction detection; [ ] team elimination; [ ] victory/defeat
+- [x] Spawn exactly one faction MCV when a team has no starting units
+- [x] Starting credits; [x] faction detection; [x] basic team elimination/victory
 
 ## 2 Construction
 - [x] MCV deploy; [x] Construction Yard; [x] prerequisites; [x] build-radius validation
@@ -17,15 +17,15 @@ Goal: standalone RA2/Yuri-style RTS in Spring with no original RA2/YR asset depe
 - [ ] MCV undeploy; [ ] deployment animation/state
 
 ## 3 Economy
-- [ ] Deterministic logical ore fields; [ ] harvester state machine; [ ] cargo; [ ] refinery unload
-- [ ] credit payout; [ ] storage cap; [ ] multiple harvesters; [ ] destruction/drop; [ ] gems
+- [x] Deterministic logical ore fields; [x] harvester state machine; [x] cargo; [x] refinery unload
+- [x] credit payout; [ ] storage cap; [x] multiple harvesters; [ ] destruction/drop; [ ] gems
 - [ ] economy UI; [ ] remove competing economy authorities
 
 ## 4 Production
-- [ ] One authoritative queue; [ ] multiple queued units; [ ] cost charged once; [ ] build time
+- [x] One authoritative queue; [x] multiple queued units; [x] cost charged once; [x] build time
 - [ ] pause/resume; [ ] cancel/refund; [ ] rally point; [ ] spawn validation
 - [ ] infantry; [ ] vehicles; [ ] aircraft; [ ] naval; [ ] tech tree; [ ] faction availability
-- [ ] clickable production UI; [ ] queue/progress UI
+- [x] clickable production UI; [x] queue/progress UI
 
 ## 5 Combat
 - [x] Spring-native firing; [x] armor/warhead matrix; [x] combat XP; [x] veterancy healing
