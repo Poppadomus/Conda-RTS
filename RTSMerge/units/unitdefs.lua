@@ -1,5 +1,5 @@
 local function building(name,description,cost,time,hp,x,z,custom,options)
- custom=custom or {}; custom.ra2_armor=custom.ra2_armor or "BUILDING"; custom.ra2_procedural=custom.ra2_procedural or "1"; custom.ra2_visual=custom.ra2_visual or "building"
+ custom=custom or {}; custom.ra2_armor=custom.ra2_armor or "BUILDING"; custom.ra2_procedural=custom.ra2_procedural or "1"; custom.ra2_visual=custom.ra2_visual or "building"; if custom.power_drain==nil then local drains={refinery=20,barracks=15,warfactory=30,conyard=0,power=0}; custom.power_drain=drains[custom.role] or 10 end
  return {name=name,description=description,buildCostMetal=cost,buildTime=time,maxDamage=hp,footprintX=x,footprintZ=z,canMove=false,canAttack=false,category="BUILDING",builder=true,buildDistance=180,buildSpeed=250,customParams=custom,buildOptions=options}
 end
 local function vehicle(name,description,cost,time,hp,speed,custom,weapon)
