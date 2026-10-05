@@ -15,6 +15,10 @@ local function orePointFor(teamID)
   end
   return ORE_POINTS[teamID][1],ORE_POINTS[teamID][2]
 end
+local function unitHasOrders(id)
+  local cmds=Spring.GetUnitCommands(id,1)
+  return cmds and #cmds>0
+end
 local function nearestRefinery(teamID,x,z)
   local best,bestDist=nil,nil
   for _,id in ipairs(Spring.GetTeamUnits(teamID)) do
@@ -55,7 +59,7 @@ function gadget:GameFrame(frame)
         if refineryID then rx,_,rz=Spring.GetUnitPosition(refineryID) end
         if s.mode=="ore" then
           if s.cargo<CAPACITY then
-            if frame-s.lastOrder>=90 then
+            if not unitHasOrders(id) and frame-s.lastOrder>=90 then
               Spring.GiveOrderToUnit(id,CMD.MOVE,{ox,Spring.GetGroundHeight(ox,oz),oz},{})
               s.lastOrder=frame
             end
@@ -66,7 +70,7 @@ function gadget:GameFrame(frame)
             end
           else s.mode="refinery" end
         elseif s.mode=="refinery" and refineryID and rx then
-          if frame-s.lastOrder>=90 then
+          if not unitHasOrders(id) and frame-s.lastOrder>=90 then
             Spring.GiveOrderToUnit(id,CMD.MOVE,{rx,Spring.GetGroundHeight(rx,rz),rz},{})
             s.lastOrder=frame
           end
