@@ -1,7 +1,7 @@
 // RTSMerge local playable demo
 [GAME]
 {
-  MapName=;
+  MapName=RTSMerge_Blank_512x256;
   GameType=Red Alert 2: Spring;
   InitBlank=1;
   StartPosType=0;
